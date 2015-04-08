@@ -132,14 +132,8 @@ class Fluent::ElasticsearchOutput < Fluent::BufferedOutput
         else
           record.merge!({"@timestamp" => Time.at(time).to_datetime.to_s})
         end
-        if @utc_index
-          target_index = "#{@logstash_prefix}-#{Time.at(time).getutc.strftime("#{@logstash_dateformat}")}"
-        else
-          target_index = "#{@logstash_prefix}-#{Time.at(time).strftime("#{@logstash_dateformat}")}"
-        end
-      else
-        target_index = @index_name
       end
+      target_index = @index_name
 
       if @include_tag_key
         record.merge!(@tag_key => tag)
